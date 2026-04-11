@@ -1,5 +1,6 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 import settings
 from dotenv import load_dotenv
 import os
@@ -7,6 +8,7 @@ import logging
 import secrets
 from pathlib import Path
 import shutil
+import httpx
 
 
 def _ensure_outbound_prompt_assets() -> None:
@@ -228,33 +230,101 @@ async def health_check():
 # Serve static files (Frontend)
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-import os
 
 # Mount static files if directory exists (production/docker)
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_dir):
     static_files = StaticFiles(directory=static_dir, html=False)
-    app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="assets")
+    assets_dir = os.path.join(static_dir, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
     index_file = os.path.join(static_dir, "index.html")
-    
-    @app.get("/{full_path:path}")
-    async def serve_react_app(full_path: str):
+    ui_renderer_enabled = (os.getenv("UI_RENDERER_ENABLED", "") or "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
+    ui_renderer_port = (os.getenv("UI_RENDERER_PORT") or "3100").strip() or "3100"
+    ui_renderer_url = (os.getenv("UI_RENDERER_URL") or f"http://127.0.0.1:{ui_renderer_port}").rstrip("/")
+    proxy_timeout = httpx.Timeout(connect=2.0, read=20.0, write=20.0, pool=5.0)
+    hop_by_hop_headers = {
+        "connection",
+        "keep-alive",
+        "proxy-authenticate",
+        "proxy-authorization",
+        "te",
+        "trailer",
+        "transfer-encoding",
+        "upgrade",
+        "content-length",
+    }
+
+    async def proxy_ui_request(request: Request) -> Response:
+        target_url = f"{ui_renderer_url}{request.url.path}"
+        if request.url.query:
+            target_url = f"{target_url}?{request.url.query}"
+
+        upstream_headers = {
+            "accept": request.headers.get("accept", "*/*"),
+            "accept-encoding": request.headers.get("accept-encoding", "gzip, deflate"),
+            "user-agent": request.headers.get("user-agent", "admin-ui-backend"),
+        }
+        if request.headers.get("x-forwarded-proto"):
+            upstream_headers["x-forwarded-proto"] = request.headers["x-forwarded-proto"]
+
+        try:
+            async with httpx.AsyncClient(follow_redirects=False, timeout=proxy_timeout) as client:
+                upstream = await client.request(
+                    request.method,
+                    target_url,
+                    headers=upstream_headers,
+                )
+        except httpx.HTTPError as exc:
+            raise HTTPException(status_code=502, detail=f"UI renderer unavailable: {exc}") from exc
+
+        response_headers = {
+            key: value
+            for key, value in upstream.headers.items()
+            if key.lower() not in hop_by_hop_headers
+        }
+        if upstream.headers.get("content-type", "").startswith("text/html"):
+            response_headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response_headers["Pragma"] = "no-cache"
+            response_headers["Expires"] = "0"
+
+        return Response(
+            content=upstream.content if request.method != "HEAD" else b"",
+            status_code=upstream.status_code,
+            headers=response_headers,
+            media_type=upstream.headers.get("content-type"),
+        )
+
+    @app.api_route("/{full_path:path}", methods=["GET", "HEAD"])
+    async def serve_react_app(request: Request, full_path: str):
         # API routes are already handled above
         if full_path.startswith("api/") or full_path in ("docs", "redoc", "openapi.json"):
             raise HTTPException(status_code=404, detail="Not found")
-            
+
         # Use Starlette's safe static path lookup to prevent traversal.
         if full_path:
             resolved_path, stat_result = static_files.lookup_path(full_path.lstrip("/"))
             if stat_result and os.path.isfile(resolved_path):
                 return FileResponse(resolved_path)
-            
-        # Serve index.html for all other routes (SPA)
-        response = FileResponse(index_file)
-        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-        response.headers["Pragma"] = "no-cache"
-        response.headers["Expires"] = "0"
-        return response
+
+        # Legacy static SPA builds still work if they produce index.html.
+        if os.path.isfile(index_file):
+            response = FileResponse(index_file)
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            response.headers["Pragma"] = "no-cache"
+            response.headers["Expires"] = "0"
+            return response
+
+        # React Router v7 framework builds generate HTML via the server bundle.
+        if ui_renderer_enabled:
+            return await proxy_ui_request(request)
+
+        raise HTTPException(status_code=404, detail="Frontend build is missing index.html and UI renderer is disabled")
 
 if __name__ == "__main__":
     import uvicorn
