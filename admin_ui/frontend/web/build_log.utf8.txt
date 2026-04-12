@@ -1,0 +1,161 @@
+﻿
+> build
+> react-router build
+
+[36mvite v6.4.2 [32mbuilding for production...[36m[39m
+transforming...
+[32m✓[39m 140 modules transformed.
+node.exe : [31m✗[39m Build failed in 4.00s
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([31m✗[39m Build failed in 4.00s:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[31m[vite:load-fallback] Could not load C:\Users\Fletwix\Desktop\AVA-AI-Voice-Agent-for-Asterisk\admin_ui\frontend\web
+\src/lib/api (imported by src/app/updates/page.jsx?noLayout.jsx): ENOENT: no such file or directory, open 'C:\Users\Fle
+twix\Desktop\AVA-AI-Voice-Agent-for-Asterisk\admin_ui\frontend\web\src\lib\api'[39m
+    at open (node:internal/fs/promises:637:25)
+    at Object.readFile (node:internal/fs/promises:1269:14)
+    at Object.handler (file:///C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modu
+les/vite/dist/node/chunks/dep-Dq2t6Dq0.js:45897:27)
+    at PluginDriver.hookFirstAndGetPlugin (file:///C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/fr
+ontend/web/node_modules/rollup/dist/es/shared/node-entry.js:22849:28)
+    at file:///C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/rollup/dist/
+es/shared/node-entry.js:21833:33
+    at Queue.work (file:///C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/
+rollup/dist/es/shared/node-entry.js:23077:32) {
+  errno: -4058,
+  code: 'PLUGIN_ERROR',
+  syscall: 'open',
+  path: 'C:\\Users\\Fletwix\\Desktop\\AVA-AI-Voice-Agent-for-Asterisk\\admin_ui\\frontend\\web\\src\\lib\\api',
+  pluginCode: 'ENOENT',
+  plugin: 'vite:load-fallback',
+  hook: 'load',
+  watchFiles: [
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/root.tsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/account/logout/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/asterisk/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/account/signup/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/account/signin/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/barge-in/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/contexts/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/@react-router/dev/dist
+/config/defaults/entry.client.tsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/help/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/docker/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/history/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/llm/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/login/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/models/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/mcp/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/providers/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/scheduling/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/profiles/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/pipelines/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/terminal/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/streaming/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/tools/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/transport/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/wizard/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/vad/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/yaml/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/updates/page.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/__create/social-dev-shim/pa
+ge.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/__create/not-found.tsx',
+    'C:\\Users\\Fletwix\\Desktop\\AVA-AI-Voice-Agent-for-Asterisk\\admin_ui\\frontend\\web\\package.json',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react/index.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react/jsx-runtime.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react-dom/client.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react-router/dist/deve
+lopment/dom-export.mjs',
+    'C:\\Users\\Fletwix\\Desktop\\AVA-AI-Voice-Agent-for-Asterisk\\admin_ui\\frontend\\web\\src\\app\\layout.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react-dom/index.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react/cjs/react-jsx-ru
+ntime.production.min.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react/cjs/react.produc
+tion.min.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react-router/dist/deve
+lopment/chunk-2UH5WJXA.mjs',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react-router/dist/deve
+lopment/chunk-QFMPRPBF.mjs',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react-dom/cjs/react-do
+m.production.min.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/layout.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react-router/node_modu
+les/cookie/dist/index.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/set-cookie-parser/lib/
+set-cookie.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/scheduler/index.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/auth/AuthContext.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/components/layout/AppShell.jsx'
+,
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/components/config/SectionJsonPa
+ge.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/pages/HistoryPage.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/components/ui/core.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/utils/useAuth.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/pages/ToolsPage.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/components/auth/Protected.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/pages/SetupWizard.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/pages/LoginPage.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/components/ui/shell.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/components/config/JsonObjectMod
+al.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/hooks/useConfigDocument.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/pages/DashboardPage.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/pages/ProvidersPage.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/components/ui/modal.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/scheduler/cjs/schedule
+r.production.min.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/components/auth/ChangePasswordM
+odal.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/global.css',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/__create/fetch.ts',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/__create/useDevServerHeartbeat.
+ts',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/auth/expo-web-success/r
+oute.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/auth/token/route.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/history/route.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/system-stats/route.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/utils/create.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/utils/sql.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/utils/upload.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/__create/check-social-s
+ecrets/route.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/__create/ssr-test/route
+.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/auth.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/client-integrations/pdfjs.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/utils/create.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/utils/useHandleStreamResponse.j
+s',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/utils/useUpload.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/utils/useUser.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/__create/@auth/create.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/__create/dev-error-overlay.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/api/vitest.config.ts',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/app/routes.ts',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/client.d.ts',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/global.d.ts',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/__create/stripe.ts',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/client-integrations/chakra-ui.j
+sx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/client-integrations/react-googl
+e-maps.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/client-integrations/react-markd
+own.jsx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/client-integrations/recharts.js
+x',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/client-integrations/shadcn-ui.j
+sx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/src/__create/PolymorphicComponent.t
+sx',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/tailwind.config.js',
+    'C:/Users/Fletwix/Desktop/AVA-AI-Voice-Agent-for-Asterisk/admin_ui/frontend/web/node_modules/react-router/dist/deve
+lopment/index.mjs'
+  ]
+}
