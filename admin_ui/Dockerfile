@@ -1,3 +1,16 @@
+# Stage 1: Build Frontend
+FROM node:20-slim AS frontend-builder
+WORKDIR /frontend
+
+# Install dependencies first (better Docker caching)
+COPY frontend/web/package.json frontend/web/package-lock.json* frontend/web/bun.lock* ./
+RUN npm install --legacy-peer-deps
+
+# Copy the rest of the frontend source code and build
+COPY frontend/web/ ./
+RUN npm run build
+
+# Stage 2: Backend and Final Image
 FROM python:3.11-slim-bookworm
 WORKDIR /app
 
@@ -39,9 +52,8 @@ RUN pip install --no-cache-dir --retries 10 -r requirements.txt
 # Copy backend code
 COPY backend/ .
 
-# Copy prebuilt frontend assets from the workspace. Build them locally with
-# `cd admin_ui/frontend/web && npm run build` before rebuilding the image.
-COPY frontend/web/build/client ./static
+# Copy prebuilt frontend assets from the node.js build stage
+COPY --from=frontend-builder /frontend/build/client ./static
 
 # Entrypoint: ensure appuser can access the Docker socket regardless of host docker group GID.
 COPY entrypoint.sh /app/entrypoint.sh
