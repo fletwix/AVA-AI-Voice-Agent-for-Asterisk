@@ -43,6 +43,7 @@ WORKDIR /runner
 
 COPY --from=agent-builder /out/agent /usr/local/bin/agent
 COPY updater/run.sh /usr/local/bin/aava-update-runner
-RUN chmod +x /usr/local/bin/aava-update-runner
+RUN sed -i 's/\r$//' /usr/local/bin/aava-update-runner && \
+    chmod +x /usr/local/bin/aava-update-runner
 
 ENTRYPOINT ["/usr/local/bin/aava-update-runner"]

@@ -58,8 +58,9 @@ COPY --from=frontend-builder /frontend/build/client ./static
 # Entrypoint: ensure appuser can access the Docker socket regardless of host docker group GID.
 COPY entrypoint.sh /app/entrypoint.sh
 COPY run-admin-ui.sh /app/run-admin-ui.sh
-RUN chmod +x /app/entrypoint.sh
-RUN chmod +x /app/run-admin-ui.sh
+RUN sed -i 's/\r$//' /app/entrypoint.sh /app/run-admin-ui.sh && \
+    chmod +x /app/entrypoint.sh && \
+    chmod +x /app/run-admin-ui.sh
 
 # Expose default port (can be overridden by UVICORN_PORT)
 EXPOSE 3003
