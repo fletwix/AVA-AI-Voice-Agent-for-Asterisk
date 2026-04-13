@@ -282,8 +282,8 @@ export default function DashboardPage() {
             />
             <TopologyNode
               label="AI Engine"
-              value={activeCalls.aiEngine?.status || "Unknown"}
-              detail={activeCalls.aiEngine?.image || "No container info"}
+              value={activeCalls.aiEngine?.status === "running" ? "Running" : "Stopped"}
+              detail={activeCalls.aiEngine?.status === "running" ? "Service Active" : "Waiting for startup"}
             />
             <TopologyNode
               label="Containers"

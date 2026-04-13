@@ -19,6 +19,7 @@ import {
   Mic2,
   Network,
   PanelLeftClose,
+  Radio,
   Route,
   ScrollText,
   Server,
@@ -58,6 +59,10 @@ const NAVIGATION = [
       { name: "Tools", path: "/tools", icon: Wrench },
       { name: "MCP", path: "/mcp", icon: Boxes },
     ],
+  },
+  {
+    group: "Testing",
+    items: [{ name: "Live Sandbox", path: "/sandbox", icon: Radio }],
   },
   {
     group: "Advanced Settings",

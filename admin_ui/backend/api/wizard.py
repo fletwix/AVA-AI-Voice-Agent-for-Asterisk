@@ -887,7 +887,15 @@ async def start_engine(action: str = "start"):
     import shutil
     from settings import PROJECT_ROOT
     
-    print(f"DEBUG: AI Engine action={action} from PROJECT_ROOT={PROJECT_ROOT}")
+    # HOST_PROJECT_ROOT is the real host-side path (e.g. C:\Users\...\project).
+    # Docker Daemon resolves bind-mount paths on the HOST, so we must pass the
+    # host path as the compose working-directory — NOT the in-container /app/project.
+    host_root = (
+        os.environ.get("HOST_PROJECT_ROOT", "").strip()
+        or PROJECT_ROOT
+    )
+    
+    print(f"DEBUG: AI Engine action={action} host_root={host_root}")
     
     # Setup media paths first
     media_setup = setup_media_paths()
@@ -945,7 +953,7 @@ async def start_engine(action: str = "start"):
             add_step("rebuild", "running", "Rebuilding AI Engine image...")
             result = subprocess.run(
                 [docker_bin, "compose", "-p", "asterisk-ai-voice-agent", "build", "--no-cache", "ai_engine"],
-                cwd=PROJECT_ROOT,
+                cwd=host_root,
                 capture_output=True, text=True, timeout=300
             )
             if result.returncode != 0:
@@ -964,7 +972,7 @@ async def start_engine(action: str = "start"):
             add_step("build", "running", "Building AI Engine image (this may take 1-2 minutes)...")
             build_result = subprocess.run(
                 [docker_bin, "compose", "-p", "asterisk-ai-voice-agent", "build", "ai_engine"],
-                cwd=PROJECT_ROOT,
+                cwd=host_root,
                 capture_output=True, text=True, timeout=300  # 5 min timeout for build
             )
             if build_result.returncode != 0:
@@ -989,7 +997,7 @@ async def start_engine(action: str = "start"):
             add_step("restart", "running", "Restarting AI Engine...")
             result = subprocess.run(
                 [docker_bin, "compose", "-p", "asterisk-ai-voice-agent", "up", "-d", "--force-recreate", "--no-build", "ai_engine"],
-                cwd=PROJECT_ROOT,
+                cwd=host_root,
                 capture_output=True, text=True, timeout=60
             )
         else:
@@ -1003,7 +1011,7 @@ async def start_engine(action: str = "start"):
             
             result = subprocess.run(
                 cmd,
-                cwd=PROJECT_ROOT,
+                cwd=host_root,
                 capture_output=True, text=True, timeout=60  # Container start should be quick after build
             )
         

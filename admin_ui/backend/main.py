@@ -227,6 +227,62 @@ app.include_router(docs.router, tags=["documentation"], dependencies=[Depends(au
 async def health_check():
     return {"status": "healthy"}
 
+from fastapi import WebSocket, WebSocketDisconnect
+import websockets
+import asyncio
+import httpx
+
+@app.websocket("/api/sandbox-ws")
+async def sandbox_websocket(websocket: WebSocket, key: str = ""):
+    await websocket.accept()
+    if not key:
+        return
+        
+    url = f"wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key={key}"
+    try:
+        async with websockets.connect(url, max_size=10_000_000) as google_ws:
+            async def forward_to_google():
+                try:
+                    while True:
+                        # Receive from browser (always text/JSON)
+                        data = await websocket.receive()
+                        if "text" in data:
+                            await google_ws.send(data["text"])
+                        elif "bytes" in data:
+                            await google_ws.send(data["bytes"])
+                except WebSocketDisconnect:
+                    await google_ws.close()
+                except Exception as e:
+                    logging.error(f"Error forwarding to Google: {e}")
+                    try:
+                        await google_ws.close()
+                    except:
+                        pass
+                    
+            async def forward_to_client():
+                try:
+                    while True:
+                        msg = await google_ws.recv()
+                        if isinstance(msg, bytes):
+                            await websocket.send_bytes(msg)
+                        else:
+                            await websocket.send_text(msg)
+                except Exception as e:
+                    logging.error(f"Error forwarding to client: {e}")
+                    try:
+                        await websocket.close()
+                    except:
+                        pass
+                        
+            await asyncio.gather(forward_to_google(), forward_to_client())
+            
+    except Exception as e:
+        logging.error(f"Sandbox proxy connection error to Google: {e}")
+        try:
+            await websocket.close(code=1011)
+        except:
+            pass
+
 # Serve static files (Frontend)
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
