@@ -256,9 +256,9 @@ export default function SetupWizard() {
         <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-[#838282]">
           Step {step + 1} of {STEPS.length}
         </p>
-        <PillButton variant="solid" onClick={nextStep} disabled={step === 4 || saving}>
+        <PillButton variant="solid" onClick={step === 4 ? () => window.location.href = "/" : nextStep} disabled={saving}>
           <span className="flex items-center gap-2">
-            {step === 3 ? (saving ? "Saving..." : "Finish Setup") : "Continue"}
+            {step === 4 ? "Go to Dashboard" : step === 3 ? (saving ? "Saving..." : "Finish Setup") : "Continue"}
             <ArrowRight size={14} />
           </span>
         </PillButton>

@@ -998,6 +998,7 @@ async def start_engine(action: str = "start"):
             cmd = [docker_bin, "compose", "-p", "asterisk-ai-voice-agent", "up", "-d"]
             if container_exists:
                 cmd.append("--force-recreate")
+            cmd.append("--no-build")
             cmd.append("ai_engine")
             
             result = subprocess.run(
