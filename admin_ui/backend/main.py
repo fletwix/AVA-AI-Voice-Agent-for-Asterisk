@@ -236,6 +236,7 @@ import httpx
 async def sandbox_websocket(websocket: WebSocket, key: str = ""):
     await websocket.accept()
     if not key:
+        await websocket.close(code=4000, reason="Missing API key")
         return
         
     url = f"wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key={key}"
@@ -244,22 +245,23 @@ async def sandbox_websocket(websocket: WebSocket, key: str = ""):
             async def forward_to_google():
                 try:
                     while True:
-                        # Receive from browser (always text/JSON)
                         data = await websocket.receive()
                         if "text" in data:
                             await google_ws.send(data["text"])
                         elif "bytes" in data:
                             await google_ws.send(data["bytes"])
                 except WebSocketDisconnect:
+                    logging.info("[sandbox-ws] Browser disconnected — closing Google WS")
                     await google_ws.close()
                 except Exception as e:
-                    logging.error(f"Error forwarding to Google: {e}")
+                    logging.error(f"[sandbox-ws] Error forwarding to Google: {e}")
                     try:
                         await google_ws.close()
                     except:
                         pass
                     
             async def forward_to_client():
+                import websockets.exceptions as ws_exc
                 try:
                     while True:
                         msg = await google_ws.recv()
@@ -267,10 +269,25 @@ async def sandbox_websocket(websocket: WebSocket, key: str = ""):
                             await websocket.send_bytes(msg)
                         else:
                             await websocket.send_text(msg)
-                except Exception as e:
-                    logging.error(f"Error forwarding to client: {e}")
+                except ws_exc.ConnectionClosedOK as e:
+                    reason = e.rcvd.reason if e.rcvd and e.rcvd.reason else "Google closed connection normally"
+                    logging.info(f"[sandbox-ws] Google WS closed OK (code={e.rcvd.code if e.rcvd else '?'}): {reason}")
                     try:
-                        await websocket.close()
+                        await websocket.close(code=1000, reason=reason)
+                    except:
+                        pass
+                except ws_exc.ConnectionClosedError as e:
+                    reason = e.rcvd.reason if e.rcvd and e.rcvd.reason else "Google closed connection with error"
+                    code = e.rcvd.code if e.rcvd else 1011
+                    logging.error(f"[sandbox-ws] Google WS closed with error (code={code}): {reason}")
+                    try:
+                        await websocket.close(code=1011, reason=reason)
+                    except:
+                        pass
+                except Exception as e:
+                    logging.error(f"[sandbox-ws] Error forwarding to client: {e}")
+                    try:
+                        await websocket.close(code=1011)
                     except:
                         pass
                         
